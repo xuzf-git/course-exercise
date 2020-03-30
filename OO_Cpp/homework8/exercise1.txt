@@ -1,0 +1,5 @@
+This is constructor of ClassOne!
+This is constructor of ClassTwo!
+The i of ClassTwo is 10
+This is destructor of ClassTwo!
+This is a destructor!
