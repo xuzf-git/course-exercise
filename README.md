@@ -5,4 +5,4 @@ This repository contains exercises of my course
 * Combined Mathematics
 >
 Most programs are in C or C++, because I first learn them.  
-![logo](https://cdn.jsdelivr.net/gh/xuzf-git/CDN@master/img/course-exercise/C-C++.png)
+![logo](https://i.loli.net/2020/05/18/gFGaIHcmNd3KJRy.png)
