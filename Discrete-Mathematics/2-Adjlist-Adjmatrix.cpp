@@ -1,11 +1,11 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <cstring>
 #include <vector>
 using namespace std;
-int dic[95];
-int adjmatrix[128];
+int dic[128];
+bool adjmatrix[95];
 vector<vector<int>> adjlist(128);
-int main(int argc, char const* argv[])
+int main(int argc, char const *argv[])
 {
     char ch, start = ' ';
     // 存储邻接表
@@ -51,12 +51,12 @@ int main(int argc, char const* argv[])
         else
         {
             int tail;
-            memset(adjmatrix, 0, sizeof(adjmatrix));
+            memset(adjmatrix, false, sizeof(adjmatrix));
             while (adjlist[i].empty() == false)
             {
                 // head = dic[i] - 1;
                 tail = dic[adjlist[i].back()] - 1;
-                adjmatrix[tail] += 1;
+                adjmatrix[tail] = true;
                 adjlist[i].pop_back();
             }
             for (int j = 0; j < nodes - 1; j++)

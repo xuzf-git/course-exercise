@@ -1,61 +1,86 @@
-#include <iostream>
 #include <cstdio>
-#include <cstring>
+#include <math.h>
+#include <algorithm>
+#define MAX 100002
+#define INF 1e30
 using namespace std;
-const int inf = 0x3f3f3f3f;
-int n, num[310], len[310], lpre[310], npre[310];
-int dp[310][310][2];
-int nsum(int i, int j)
+struct Point
 {
-    int tmp = (i != 0);
-    j = n - j;
-    return npre[j] - npre[i - tmp];
+    double x, y;
+} points[MAX];
+int selected[MAX]; 
+bool cmp1(const Point &a, const Point &b)
+{
+    return a.x < b.x;
 }
-int lsum(int i, int j)
+
+bool cmp2(const int &a, const int &b)
 {
-    return lpre[j] - lpre[i];
+    return points[a].y < points[b].y;
 }
-int dfs(int i, int j, int pos)
+
+// 计算两个点之间的距离
+double len(const int &a, const int &b)
 {
-    if (dp[i][j][pos] != inf)
-    {
-        return dp[i][j][pos];
-    }
-    if (i + j >= n)
-    {
-        return dp[i][j][pos] = 0;
-    }
-    if (pos == 1)
-    {
-        dp[i][j][1] = min(dp[i][j][1], dfs(i, j + 1, 1) + len[n - (j + 1)] * nsum(i, j + 1));
-        dp[i][j][1] = min(dp[i][j][1], dfs(i, j + 1, 0) + (lpre[i] + lsum(n - j, n)) * nsum(i, j + 1));
-    }
-    else
-    {
-        dp[i][j][0] = min(dp[i][j][0], dfs(i + 1, j, 0) + len[i] * nsum(i + 1, j));
-        dp[i][j][0] = min(dp[i][j][0], dfs(i + 1, j, 1) + (lpre[i] + lsum(n - j, n)) * nsum(i + 1, j));
-    }
-    return dp[i][j][pos];
+    return sqrt((points[a].x - points[b].x) * (points[a].x - points[b].x) + 
+                (points[a].y - points[b].y) * (points[a].y - points[b].y));
 }
-int main()
+
+// 计算最近点距
+double Closest(int l, int r)
 {
-    while (~scanf("%d", &n))
+    if (l == r)
+        return INF;
+    if (l + 1 == r)
+        return len(l, r);
+    double min;
+    int mid = (l + r) / 2;
+    /* 计算分隔线同侧点对的最短距离 */
+    double leng1 = Closest(l, mid);
+    double leng2 = Closest(mid + 1, r);
+    leng1 < leng2 ? min = leng1 : min = leng2;
+    /* 计算分隔线两侧点对的距离 */
+    int j = 0;
+    // 找出所有离分隔线的距离小于min的点
+    for (int i = l; i <= r; i++)
     {
-        if (!n)
+        if (points[i].x - points[mid].x >= -min && points[i].x - points[mid].x <= min)
+        {
+            selected[j] = i;
+            j++;
+        }
+    }
+    // 把选出来的点，按照y排序
+    sort(selected, selected + j, cmp2);
+    // 对于y方向的相距小于min的点，测量距离，更新min
+    for (int i = 0; i < j; i++)
+    {
+        for (int k = i + 1; k < i + 7; k++) // 最多遍历6个其他点
+        {
+            if (points[selected[k]].y - points[selected[i]].y > min)
+                break;
+            double temp = len(selected[i], selected[k]);
+            if (temp < min)
+                min = temp;
+        }
+    }
+    return min;
+}
+
+int main(int argc, char const *argv[])
+{
+    int n;
+    while (true)
+    {
+        scanf("%d", &n);
+        if (n == 0)
             break;
         for (int i = 0; i < n; i++)
         {
-            scanf("%d%d", &num[i], &len[i]);
+            scanf("%lf %lf", &points[i].x, &points[i].y);
         }
-        lpre[0] = npre[0] = num[n] = 0;
-        for (int i = 1; i <= n; i++)
-        {
-            lpre[i] = lpre[i - 1] + len[i - 1];
-            npre[i] = npre[i - 1] + num[i];
-        }
-        memset(dp, inf, sizeof(dp));
-        int ans = min(dfs(0, 0, 0), dfs(0, 0, 1));
-        printf("%d\n", ans);
+        sort(points, points + n, cmp1);
+        printf("%.2lf\n", Closest(0, n - 1));
     }
     return 0;
 }
