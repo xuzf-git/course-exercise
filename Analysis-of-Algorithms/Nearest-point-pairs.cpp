@@ -1,3 +1,4 @@
+// 最近点对问题 (分治)
 #include <cstdio>
 #include <math.h>
 #include <algorithm>
@@ -8,7 +9,7 @@ struct Point
 {
     double x, y;
 } points[MAX];
-int selected[MAX]; 
+int selected[MAX];
 bool cmp1(const Point &a, const Point &b)
 {
     return a.x < b.x;
@@ -22,7 +23,7 @@ bool cmp2(const int &a, const int &b)
 // 计算两个点之间的距离
 double len(const int &a, const int &b)
 {
-    return sqrt((points[a].x - points[b].x) * (points[a].x - points[b].x) + 
+    return sqrt((points[a].x - points[b].x) * (points[a].x - points[b].x) +
                 (points[a].y - points[b].y) * (points[a].y - points[b].y));
 }
 

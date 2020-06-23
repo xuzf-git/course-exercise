@@ -1,3 +1,4 @@
+// 线性时间选择问题 (分治)
 #include <stdio.h>
 #define MAX 100000
 int num[MAX];

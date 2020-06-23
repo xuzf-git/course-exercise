@@ -1,4 +1,4 @@
-// 矩阵连乘问题
+// 矩阵连乘问题(动态规划)
 #include <iostream>
 #define INF (2 << 31) - 1
 #define MAX 110
@@ -6,6 +6,7 @@ using namespace std;
 int m[MAX][MAX];
 int q[MAX];
 int s[MAX][MAX]; // 记录 i 到 j 的分隔点
+// 打印矩阵连乘计算策略
 void printPath(int i, int j)
 {
     if (i == j)
@@ -28,9 +29,9 @@ int main(int argc, char const *argv[])
     for (i = 0; i <= n; i++)
         m[i][i] = 0;
     // 动态规划，自底向上
-    for (d = 1; d < n; d++)
+    for (d = 1; d < n; d++)  // d 为步长
     {
-        for (i = 1; i <= n - d; i++)
+        for (i = 1; i <= n - d; i++)  // 计算 A[i, j] 最低代价 
         {
             j = i + d;
             m[i][j] = m[i][i] + m[i + 1][j] + q[i - 1] * q[i] * q[j];
