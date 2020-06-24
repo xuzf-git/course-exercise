@@ -52,12 +52,12 @@ void MS_dp(int *num, int n)
             end = i;        // 记录子段结尾
             sum = tms;      // 更新最大值
         }
-        for (int i = start; i < end; i++)
-        {
-            cout << num[i] << ' '; 
-        }
-        cout << num[end] << endl;
     }
+    for (int i = start; i < end; i++)
+    {
+        cout << num[i] << ' '; 
+    }
+    cout << num[end] << endl;
 }
 int main(int argc, char const *argv[])
 {
